@@ -1,0 +1,40 @@
+model_provider = "chip_gateway"
+model = __MODEL__
+model_context_window = 32768
+model_auto_compact_token_limit = 30000
+approval_policy = "never"
+sandbox_mode = "read-only"
+web_search = "disabled"
+check_for_update_on_startup = false
+
+[analytics]
+enabled = false
+
+[feedback]
+enabled = false
+
+[features]
+apps = false
+plugins = false
+remote_models = false
+memories = false
+multi_agent = false
+shell_tool = false
+tool_search = false
+skill_mcp_dependency_install = false
+
+[model_providers.chip_gateway]
+name = "APDU chip gateway"
+wire_api = "responses"
+base_url = __BASE_URL__
+requires_openai_auth = false
+supports_websockets = false
+request_max_retries = 0
+stream_max_retries = 0
+stream_idle_timeout_ms = 175000
+
+[model_providers.chip_gateway.auth]
+command = __HELPER__
+args = ["credential", __ADDRESS__, __BOOTSTRAP__]
+timeout_ms = 190000
+refresh_interval_ms = 120000

@@ -1,0 +1,62 @@
+[package]
+name = "codex-apdu-gateway"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+default-run = "codex-apdu-gateway"
+
+[lib]
+name = "codex_apdu"
+
+[[bin]]
+name = "codex-apdu"
+path = "src/main.rs"
+
+[[bin]]
+name = "codex-chatgpt-chip"
+path = "src/chatgpt_chip.rs"
+
+[[bin]]
+name = "codex-apdu-gateway"
+path = "src/bin/gateway.rs"
+
+[dependencies]
+anyhow = "1"
+bytes = "1"
+ed25519-dalek = "2.2"
+eventsource-stream = "0.2.3"
+futures = "0.3"
+http = "1"
+http-body-util = "0.1"
+hyper = { version = "1", features = ["client", "server", "http1"] }
+hyper-util = { version = "0.1", features = ["tokio"] }
+rand = "0.9"
+rcgen = { version = "0.14.7", default-features = false, features = ["ring"] }
+rustls = { version = "0.23", default-features = false, features = ["ring", "std"] }
+serde_json = "1"
+sha2 = "0.10"
+subtle = "2.6"
+thiserror = "2"
+tokio = { version = "1", features = ["io-std", "io-util", "macros", "net", "process", "rt-multi-thread", "signal", "time", "fs", "sync"] }
+tokio-rustls = { version = "0.26", default-features = false, features = ["ring"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", default-features = false, features = ["fmt", "std"] }
+zeroize = "1.8"
+
+[target.'cfg(windows)'.dependencies]
+base64 = "0.22"
+libloading = "0.8"
+serde = { version = "1", features = ["derive"] }
+webpki-root-certs = "1.0.5"
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Networking_WinHttp", "Win32_Security_Cryptography", "Win32_System_LibraryLoader"] }
+tempfile = "3.23"
+url = "2.5"
+webbrowser = "1"
+
+[dev-dependencies]
+insta = "1.46"
+pretty_assertions = "1.4"
+tempfile = "3.23"
+
+[profile.dev]
+debug = 0

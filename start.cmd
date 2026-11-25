@@ -1,0 +1,5 @@
+@echo off
+setlocal
+set "CODEX_APDU_LAUNCH_DIR=%~dp0"
+"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoLogo -NoProfile -Command "$cmd = Get-Command pwsh.exe -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1; $candidates = @($cmd.Source, (Join-Path $env:ProgramFiles 'PowerShell\7\pwsh.exe'), (Join-Path $env:USERPROFILE '.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.exe')); $exe = $candidates | Where-Object { $_ -and (Test-Path -LiteralPath $_ -PathType Leaf) } | Select-Object -First 1; if (!$exe) { try { $exe = Get-AppxPackage -Name 'OpenAI.CodexPrimaryRuntime*' -ErrorAction Stop | Where-Object InstallLocation | ForEach-Object { Join-Path $_.InstallLocation 'dependencies\native\powershell\pwsh.exe' } | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1 } catch { $exe = $null } }; if (!$exe) { Write-Error 'PowerShell 7 was not found. Install it or open the Codex desktop app to prepare its runtime.'; exit 1 }; & $exe -NoLogo -NoProfile -File (Join-Path $env:CODEX_APDU_LAUNCH_DIR 'run.ps1'); exit $LASTEXITCODE"
+exit /b %ERRORLEVEL%
